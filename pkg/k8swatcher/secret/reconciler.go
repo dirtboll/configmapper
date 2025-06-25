@@ -45,6 +45,9 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 	if path := common.GetBaseDir(secret); path != "" {
 		baseDir = path
 	}
+	if err := os.MkdirAll(baseDir, 0700); err != nil {
+		return ctrl.Result{}, err
+	}
 
 	if !secret.DeletionTimestamp.IsZero() {
 		// The object is being deleted
